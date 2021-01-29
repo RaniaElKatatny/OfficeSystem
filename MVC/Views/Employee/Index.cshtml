@@ -1,0 +1,82 @@
+﻿@model IPagedList<MVC.Models.mvcEmployeeModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<h2>List of Employees</h2>
+
+@using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+{
+    <div class="form-group">
+
+        <input type="text" class="form-control" placeholder="Seach by Employee Name" name="search">
+        <input type="submit" value="Search" class="btn btn-default" />
+    </div>
+}
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Name")
+        </th>
+        <th>
+            @Html.DisplayName("Email")
+        </th>
+
+        <th>
+            @Html.DisplayName("Age")
+        </th>
+        <th>
+            @Html.DisplayName("Department Name")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            <a onclick="Delete(@item.Id)">Delete</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+
+@Html.PagedListPager(Model, i => Url.Action("Index", "Employee", new { i, search = Request.QueryString["search"] }))
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["successMessage"]'
+            if (successMessage != "")
+                alertify.success(successMessage);
+
+        });
+
+        function Delete(id) {
+            alertify.confirm('Delete',
+                'Are You Sure You Want To Delete This Departement?',
+                function () { window.location.href = '@Url.Action("Delete", "Employee")/' + id },
+                null);
+        }
+    </script>
+}

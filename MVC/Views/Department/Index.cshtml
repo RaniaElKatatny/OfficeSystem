@@ -1,0 +1,65 @@
+﻿@model IPagedList<MVC.Models.mvcDepartmentModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+
+<h2>List of Departments</h2>
+
+
+@using(Html.BeginForm("Index", "Department", FormMethod.Get))
+{
+    <div class="form-group">
+            
+            <input type="text" class="form-control" placeholder="Seach by Department Name" name="search">
+    <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+}
+<br/>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Department Name")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name, "Name")
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            <a onclick="Delete(@item.Id)">Delete</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+@Html.PagedListPager(Model, i => Url.Action("Index", "Department", new { i, search= Request.QueryString["search"]}))
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["successMessage"]'
+            if (successMessage != "")
+                alertify.success(successMessage);
+
+        });
+
+        function Delete(id) {
+            alertify.confirm('Delete',
+                'Are You Sure You Want To Delete This Departement?',
+                function () { window.location.href = '@Url.Action("Delete", "Department")/' + id },
+                null);
+        }
+    </script>
+    }

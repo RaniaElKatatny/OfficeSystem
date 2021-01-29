@@ -1,0 +1,45 @@
+﻿@model IPagedList<MVC.Models.mvcEmployeeModel>
+
+@{
+    ViewBag.Title = "ShowEmps";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<h2>Employees in Department</h2><br/>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Employee Name")
+        </th>
+        <th>
+            @Html.DisplayName("Email")
+        </th>
+
+        <th>
+            @Html.DisplayName("Age")
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.age)
+        </td>
+    </tr>
+}
+
+</table>
+@Html.PagedListPager(Model, i => Url.Action("ShowEmps", "Employee", new { i}))
+

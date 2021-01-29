@@ -1,0 +1,33 @@
+﻿@model IPagedList<MVC.Models.mvcDepartmentModel>
+
+@{
+    ViewBag.Title = "getdeps";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<h2>Employees Per Department</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Department Name")
+        </th> 
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.ActionLink("Show Employees", "ShowEmps", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+@Html.PagedListPager(Model, i => Url.Action("getdeps", "Employee", new { i }))
+

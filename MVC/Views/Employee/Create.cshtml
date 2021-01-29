@@ -1,0 +1,52 @@
+﻿@model MVC.Models.mvcEmployeeModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add New Employee</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+
+           <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email">
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name= "age">
+    </div>
+    <div class="form-group">
+        <label for="depID">Department ID</label>
+        <input type="number" class="form-control" id="depID" name ="depID">
+    </div>
+
+            <div class="form-group">
+
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+
+
+        }
+
+<div>
+    @Html.ActionLink("View Full Employees List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
